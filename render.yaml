@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: telegram-file-host-bot
+    runtime: python
+    plan: starter
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: python telegram_file_host_bot_render.py
+    healthCheckPath: /
+    disk:
+      name: bot-data
+      mountPath: /var/data
+      sizeGB: 10
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        sync: false
+      - key: MINI_APP_URL
+        sync: false
+      - key: STORAGE_DIR
+        value: /var/data
+      - key: AUTO_INSTALL_PACKAGES
+        value: "1"
+      - key: AUTO_HOST_ON_UPLOAD
+        value: "1"
+      - key: AUTO_CREATE_VENV
+        value: "1"
+      - key: DROP_PENDING_UPDATES
+        value: "1"
+      - key: MAX_FILE_BYTES
+        value: "2097152"
